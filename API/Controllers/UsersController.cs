@@ -18,7 +18,6 @@ namespace API.Controllers;
 
 // }
 
-
 public class UsersController(DataContext context) : ControllerBase
 {
   // [HttpGet]
