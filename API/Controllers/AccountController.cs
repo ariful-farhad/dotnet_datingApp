@@ -22,35 +22,35 @@ public class AccountController(DataContext context, ITokenService tokenService) 
   {
     if (await UserExists(registerDto.Username))
       return BadRequest("Username is taken");
+    return Ok();
 
+    // // if we don't pass a value as parameter, each time it will create a random key for hasing, 
+    // // we need to store that key for veficiation
+    // using var hmac = new HMACSHA512();
+    // var user = new AppUser
+    // {
+    //   // as computehash takes bytearray
+    //   //       Verification (During Login)
+    //   // When a user logs in:
 
-    // if we don't pass a value as parameter, each time it will create a random key for hasing, 
-    // we need to store that key for veficiation
-    using var hmac = new HMACSHA512();
-    var user = new AppUser
-    {
-      // as computehash takes bytearray
-      //       Verification (During Login)
-      // When a user logs in:
+    //   // Retrieve the stored salt from the database.
+    //   // Recompute the hash using the input password and the stored salt:
 
-      // Retrieve the stored salt from the database.
-      // Recompute the hash using the input password and the stored salt:
+    //   // using var hmac = new HMACSHA512(storedSalt);
+    //   // byte[] computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(inputPassword));
 
-      // using var hmac = new HMACSHA512(storedSalt);
-      // byte[] computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(inputPassword));
+    //   UserName = registerDto.Username.ToLower(),
+    //   PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
+    //   PasswordSalt = hmac.Key
+    // };
 
-      UserName = registerDto.Username.ToLower(),
-      PasswordHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(registerDto.Password)),
-      PasswordSalt = hmac.Key
-    };
-
-    context.Users.Add(user);
-    await context.SaveChangesAsync();
-    return new UserDto
-    {
-      Username = user.UserName,
-      Token = tokenService.CreateToken(user)
-    };
+    // context.Users.Add(user);
+    // await context.SaveChangesAsync();
+    // return new UserDto
+    // {
+    //   Username = user.UserName,
+    //   Token = tokenService.CreateToken(user)
+    // };
   }
 
   [HttpPost("login")]
